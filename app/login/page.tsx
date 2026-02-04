@@ -6,11 +6,12 @@ export const metadata: Metadata = {
 };
 
 type LoginPageProps = {
-  searchParams?: { redirectTo?: string };
+  searchParams?: Promise<{ redirectTo?: string }>;
 };
 
-export default function LoginPage({ searchParams }: LoginPageProps) {
-  const redirectTo = typeof searchParams?.redirectTo === "string" ? searchParams.redirectTo : "/ui";
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const resolvedParams = (await searchParams) ?? {};
+  const redirectTo = typeof resolvedParams.redirectTo === "string" ? resolvedParams.redirectTo : "/ui";
 
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center gap-8 px-6 py-12">
