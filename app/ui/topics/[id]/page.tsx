@@ -3,12 +3,14 @@ import { Question } from "@/components/Question";
 import { questions, topics } from "@/lib/placeholder-data";
 import { notFound } from "next/navigation";
 
-export default function TopicDetailPage({
+export default async function TopicDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const topic = topics.find((topicItem) => topicItem.id === params.id) ?? notFound();
+  const resolvedParams = await params;
+  const topic =
+    topics.find((topicItem) => topicItem.id === resolvedParams.id) ?? notFound();
 
   const topicQuestions = questions
     .filter((question) => question.topic === topic.id)
