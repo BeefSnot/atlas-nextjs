@@ -1,6 +1,10 @@
 import { sql } from "@vercel/postgres";
 import { Question, Topic, User } from "./definitions";
-import { questions as placeholderQuestions, topics as placeholderTopics } from "./placeholder-data";
+import {
+  questions as placeholderQuestions,
+  topics as placeholderTopics,
+  users as placeholderUsers,
+} from "./placeholder-data";
 
 const TABLE_MISSING_CODE = "42P01";
 
@@ -13,6 +17,10 @@ export async function fetchUser(email: string): Promise<User | undefined> {
     const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
     return user.rows[0];
   } catch (error) {
+    if (isMissingTableError(error)) {
+      console.warn("users table missing; falling back to placeholder user");
+      return placeholderUsers.find((user) => user.email === email);
+    }
     console.error("Failed to fetch user:", error);
     throw new Error("Failed to fetch user.");
   }

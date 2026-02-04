@@ -20,6 +20,12 @@ export default function Page() {
           Enter the dashboard
         </Link>
         <Link
+          href="/login"
+          className="rounded-md border border-secondary px-6 py-3 text-secondary hover:bg-secondary/10"
+        >
+          Log in
+        </Link>
+        <Link
           href="/about"
           className="rounded-md border border-secondary px-6 py-3 text-secondary hover:bg-secondary/10"
         >
