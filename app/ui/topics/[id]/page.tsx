@@ -31,7 +31,7 @@ export default async function TopicDetailPage({
           question or upvote the answers that resonate.
         </p>
       </header>
-      <AskQuestion topic={topic.title} />
+  <AskQuestion topicId={topic.id} topicTitle={topic.title} />
       <div className="rounded-md border border-atlas-white-300 bg-white">
         {topicQuestions.length === 0 ? (
           <p className="p-6 text-gray-500">
@@ -44,6 +44,7 @@ export default async function TopicDetailPage({
               id={question.id}
               text={question.title}
               votes={question.votes}
+              topicId={topic.id}
             />
           ))
         )}
