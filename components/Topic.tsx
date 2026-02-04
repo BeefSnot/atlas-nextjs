@@ -3,10 +3,10 @@ import Link from "next/link";
 
 type Props = {
   id: string;
-  text: string;
+  title: string;
 };
 
-export function Topic({ id, text }: Props) {
+export function Topic({ id, title }: Props) {
   return (
     <Link
       href={`/ui/topics/${id}`}
@@ -14,7 +14,7 @@ export function Topic({ id, text }: Props) {
     >
       <p className="text w-full text-left font-semibold flex">
         <HashtagIcon className="h-6 w-6 mr-2" />
-        {text}
+        {title}
       </p>
     </Link>
   );

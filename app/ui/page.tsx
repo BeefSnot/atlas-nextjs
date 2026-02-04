@@ -1,8 +1,10 @@
 import { Topic } from "@/components/Topic";
-import { topics } from "@/lib/placeholder-data";
+import { fetchTopics } from "@/lib/data";
 import Link from "next/link";
 
-export default function UIDashboardPage() {
+export default async function UIDashboardPage() {
+  const topics = await fetchTopics();
+
   return (
     <section className="mx-auto flex w-full max-w-3xl flex-col gap-6">
       <header className="space-y-2">
@@ -30,9 +32,15 @@ export default function UIDashboardPage() {
         </Link>
       </div>
       <div className="rounded-md border border-atlas-white-300 bg-white">
-        {topics.map((topic) => (
-          <Topic key={topic.id} id={topic.id} text={topic.title} />
-        ))}
+        {topics.length === 0 ? (
+          <p className="p-6 text-gray-500">
+            No topics yet—create one to kick off the conversation.
+          </p>
+        ) : (
+          topics.map((topic) => (
+            <Topic key={topic.id} id={topic.id} title={topic.title} />
+          ))
+        )}
       </div>
     </section>
   );

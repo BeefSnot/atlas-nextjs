@@ -1,6 +1,6 @@
 import { AskQuestion } from "@/components/AskQuestion";
 import { Question } from "@/components/Question";
-import { questions, topics } from "@/lib/placeholder-data";
+import { fetchQuestions, fetchTopic } from "@/lib/data";
 import { notFound } from "next/navigation";
 
 export default async function TopicDetailPage({
@@ -8,13 +8,14 @@ export default async function TopicDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const resolvedParams = await params;
-  const topic =
-    topics.find((topicItem) => topicItem.id === resolvedParams.id) ?? notFound();
+  const { id } = await params;
 
-  const topicQuestions = questions
-    .filter((question) => question.topic === topic.id)
-    .sort((a, b) => b.votes - a.votes);
+  const topic = await fetchTopic(id);
+  if (!topic) {
+    notFound();
+  }
+
+  const topicQuestions = await fetchQuestions(topic.id);
 
   return (
     <section className="mx-auto flex w-full max-w-3xl flex-col gap-6">
